@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'Storage.dart';
+import 'file_storage.dart';
 import 'local_storage.dart';
 import 'models/App.dart';
 import 'screens/login_page.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Storage>(
-      future: Storage.create(repository: LocalKeyValuePersistence()),
+      future: Storage.create(repository: FileStorage()),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final repository = snapshot.data;
@@ -42,7 +43,14 @@ class MyApp extends StatelessWidget {
             ),
           );
         }
-        return CircularProgressIndicator();
+        return MaterialApp(
+          theme: ThemeData(),
+          debugShowCheckedModeBanner: false,
+          home: Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+            backgroundColor: Color(0xff006837),
+          ),
+        );
       },
     );
   }
